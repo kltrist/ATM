@@ -28,7 +28,7 @@ public class CreditCardDAOImpl implements CreditCardDAO {
         try {
             selectPS.setString(1, num);
             ResultSet rs = selectPS.executeQuery();
-            // card = new entity.CreditCard(num,rs.getString("pin_code"),)
+            //  card = new entity.CreditCard(num,rs.getString("pin_code"),)
         } catch (SQLException e) {
             e.printStackTrace();
         }
