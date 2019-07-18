@@ -15,7 +15,7 @@ import java.sql.SQLException;
         ds.setPassword("");
         ds.setMinIdle(5);
         ds.setMaxIdle(10);
-        ds.setMaxOpenPreparedStatements(100);
+        ds.setMaxOpenPreparedStatements(10);
     }
 
       static Connection getConnection() throws SQLException {
