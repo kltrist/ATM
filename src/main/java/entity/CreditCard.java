@@ -10,15 +10,9 @@ import java.util.Objects;
 public class CreditCard {
 
     private String number;
-    private String password;
+    private String pinCode;
     private double balance;
     private int attemptsToLogin;
-
-    public CreditCard(String number, String password, double balance) {
-        this.number = number;
-        this.password = password;
-        this.balance = balance;
-    }
 
     @Override
     public String toString() {
@@ -30,6 +24,13 @@ public class CreditCard {
             if ((i + 1) % 4 == 0 && (i + 1) != digits.length)
                 sb.append('-');
         }
+        sb.append("\n")
+                .append(pinCode)
+                .append("\n")
+                .append(balance)
+                .append("\n")
+                .append(attemptsToLogin)
+                .append("\n");
         return sb.toString();
     }
 
@@ -41,11 +42,11 @@ public class CreditCard {
         return Double.compare(that.balance, balance) == 0 &&
                 attemptsToLogin == that.attemptsToLogin &&
                 number.equals(that.number) &&
-                password.equals(that.password);
+                pinCode.equals(that.pinCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, password, balance, attemptsToLogin);
+        return Objects.hash(number, pinCode, balance, attemptsToLogin);
     }
 }

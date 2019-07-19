@@ -2,6 +2,7 @@ package data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ATMDAOImpl implements ATMDAO {
@@ -23,7 +24,9 @@ public class ATMDAOImpl implements ATMDAO {
     public int getAvailableAmountOfMoney() {
         int amount = 0;
         try {
-            amount = selectAmount.executeQuery().getInt("1");
+            ResultSet rs = selectAmount.executeQuery();
+            rs.next();
+            amount = rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }

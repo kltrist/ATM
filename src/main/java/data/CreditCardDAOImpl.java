@@ -1,7 +1,7 @@
 package data;
 
 import entity.CreditCard;
-import render.ConsoleWriter;
+import writer.ConsoleWriter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +35,7 @@ public class CreditCardDAOImpl implements CreditCardDAO {
         try {
             selectCard.setString(1, num);
             ResultSet rs = selectCard.executeQuery();
-
+            rs.next();
             Optional<String> pin = getPinCodeByCardNumber(num);
             if (pin.isPresent()) {
                 card = new CreditCard(num,
@@ -46,7 +46,7 @@ public class CreditCardDAOImpl implements CreditCardDAO {
         } catch (SQLException e) {
             cw.writeLine(e.getMessage());
         }
-        return new Optional<>(card);
+        return Optional.ofNullable(card);
     }
 
     @Override
@@ -58,12 +58,15 @@ public class CreditCardDAOImpl implements CreditCardDAO {
         return card;
     }
 
+    private String test;
+
     @Override
     public Optional<String> getPinCodeByCardNumber(String num) throws SQLException {
         selectPin.setString(1, num);
         ResultSet rs = selectPin.executeQuery();
+        rs.next();
         String pin_code = rs.getString("pin_code");
-        return new Optional<>(pin_code);
+        return Optional.of(pin_code);
     }
 
 

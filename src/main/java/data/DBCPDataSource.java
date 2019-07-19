@@ -10,9 +10,15 @@ import java.sql.SQLException;
     private static BasicDataSource ds = new BasicDataSource();
 
     static {
-        ds.setUrl("jdbc:mysql://localhost/atm?useSSL=false");
-        ds.setUsername("");
-        ds.setPassword("");
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost/atm?useSSL=false&serverTimezone=UTC");
+        ds.setUsername("root");
+        ds.setPassword("31704058k");
         ds.setMinIdle(5);
         ds.setMaxIdle(10);
         ds.setMaxOpenPreparedStatements(10);
