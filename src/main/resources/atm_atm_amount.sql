@@ -1,0 +1,1 @@
+INSERT INTO atm.atm_amount (available_amount) VALUES (123459493);

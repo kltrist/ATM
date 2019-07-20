@@ -1,0 +1,1 @@
+INSERT INTO atm.credit_cards (card_number, pin_code) VALUES ('4111111111111111', '1234');

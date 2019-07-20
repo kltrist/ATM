@@ -1,0 +1,1 @@
+INSERT INTO atm.card_data (card_number, balance, attempts_to_login) VALUES ('4111111111111111', 1000, 3);
