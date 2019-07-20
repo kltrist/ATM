@@ -1,4 +1,4 @@
-package render;
+package ui;
 
 import reader.AbstractReader;
 import writer.AbstractWriter;

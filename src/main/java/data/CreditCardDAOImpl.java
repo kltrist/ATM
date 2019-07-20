@@ -19,20 +19,25 @@ public class CreditCardDAOImpl implements CreditCardDAO {
     private PreparedStatement selectCard;
     private PreparedStatement selectPin;
     private PreparedStatement update;
-    private ConsoleWriter cw = new ConsoleWriter();
+    private ConsoleWriter writer = new ConsoleWriter();
 
-    public CreditCardDAOImpl() throws SQLException {
-        Connection con = DBCPDataSource.getConnection();
+    public CreditCardDAOImpl() {
+        Connection con;
+        try {
+            con = DBCPDataSource.getConnection();
+            selectCard = con.prepareStatement(SQL_SELECT_CARD);
+            update = con.prepareStatement(SQL_UPDATE_CARD);
+            selectPin = con.prepareStatement(SQL_SELECT_PIN);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        selectCard = con.prepareStatement(SQL_SELECT_CARD);
-        update = con.prepareStatement(SQL_UPDATE_CARD);
-        selectPin = con.prepareStatement(SQL_SELECT_PIN);
+
     }
 
     @Override
-    public Optional<CreditCard> getCardByNumber(String num) {
+    public Optional<CreditCard> getCardByNumber(String num) throws SQLException {
         CreditCard card = null;
-        try {
             selectCard.setString(1, num);
             ResultSet rs = selectCard.executeQuery();
             rs.next();
@@ -43,9 +48,6 @@ public class CreditCardDAOImpl implements CreditCardDAO {
                         rs.getDouble("balance"),
                         rs.getInt("attempts_to_login"));
             }
-        } catch (SQLException e) {
-            cw.writeLine(e.getMessage());
-        }
         return Optional.ofNullable(card);
     }
 

@@ -1,10 +1,13 @@
 package entity;
 
-import data.ATMDAO;
+import data.AtmDAO;
 import data.CreditCardDAO;
+import exception.ATMException;
 import exception.NotEnoughMoneyException;
 import exception.ReplenishLimitException;
 import exception.RunOutMoneyInATMException;
+
+import java.sql.SQLException;
 
 
 public class ATM {
@@ -12,23 +15,22 @@ public class ATM {
     public static final char CURRENCY = '$';
     private static final int LIMIT = 1_000_000;
     private CreditCardDAO cardDAO;
-    private ATMDAO ATMDAO;
+    private AtmDAO ATMDAO;
 
-    public ATM(CreditCardDAO cardDAO, ATMDAO ATMDAO) {
+    public ATM(CreditCardDAO cardDAO, AtmDAO ATMDAO) {
         this.cardDAO = cardDAO;
         this.ATMDAO = ATMDAO;
     }
 
-    public void pullMoney(CreditCard card, int amount) throws Exception {
+    public void pullMoney(CreditCard card, int amount) throws ATMException, SQLException {
         if (amount < 0) throw new IllegalArgumentException("Amount must be positive!");
+
         if (card.getBalance() < amount)
             throw new NotEnoughMoneyException("Not enough money in your bank account");
 
         int availableAmount = ATMDAO.getAvailableAmountOfMoney();
-
         if (availableAmount < amount)
             throw new RunOutMoneyInATMException("Run out of money in ATM");
-
 
         card.setBalance(card.getBalance() - amount);
         cardDAO.save(card);
@@ -41,7 +43,7 @@ public class ATM {
         return card.getBalance();
     }
 
-    public void replenishBankAccount(CreditCard card, int amount) throws Exception {
+    public void replenishBankAccount(CreditCard card, int amount) throws ATMException, SQLException {
         if (amount < 0) throw new IllegalArgumentException("Amount must be positive!");
         if (amount < LIMIT) {
             double currentBalance = card.getBalance();

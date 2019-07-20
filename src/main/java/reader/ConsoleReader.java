@@ -24,12 +24,14 @@ public class ConsoleReader extends AbstractReader {
     }
 
     @Override
-    public Integer readInt() throws IOException {
+    public Integer readInt()   {
         Integer amount = null;
         try {
             amount = Integer.parseInt(br.readLine());
         } catch (NumberFormatException e) {
             writer.writeLine("Incorrect input\n");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return amount;
     }
