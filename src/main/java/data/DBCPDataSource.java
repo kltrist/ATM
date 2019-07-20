@@ -12,8 +12,8 @@ import java.sql.SQLException;
     static {
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
         ds.setUrl("jdbc:mysql://localhost/atm?useSSL=false&serverTimezone=UTC");
-        ds.setUsername("root");
-        ds.setPassword("31704058k");
+        ds.setUsername("");
+        ds.setPassword("");
         ds.setMinIdle(5);
         ds.setMaxIdle(10);
         ds.setMaxOpenPreparedStatements(10);
