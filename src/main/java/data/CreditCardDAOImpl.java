@@ -1,7 +1,6 @@
 package data;
 
 import entity.CreditCard;
-import writer.ConsoleWriter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +18,7 @@ public class CreditCardDAOImpl implements CreditCardDAO {
     private PreparedStatement selectCard;
     private PreparedStatement selectPin;
     private PreparedStatement update;
-    private ConsoleWriter writer = new ConsoleWriter();
+
 
     public CreditCardDAOImpl() {
         Connection con;
@@ -38,16 +37,16 @@ public class CreditCardDAOImpl implements CreditCardDAO {
     @Override
     public Optional<CreditCard> getCardByNumber(String num) throws SQLException {
         CreditCard card = null;
-            selectCard.setString(1, num);
-            ResultSet rs = selectCard.executeQuery();
-            rs.next();
-            Optional<String> pin = getPinCodeByCardNumber(num);
-            if (pin.isPresent()) {
-                card = new CreditCard(num,
-                        pin.get(),
-                        rs.getDouble("balance"),
-                        rs.getInt("attempts_to_login"));
-            }
+        selectCard.setString(1, num);
+        ResultSet rs = selectCard.executeQuery();
+        rs.next();
+        Optional<String> pin = getPinCodeByCardNumber(num);
+        if (pin.isPresent()) {
+            card = new CreditCard(num,
+                    pin.get(),
+                    rs.getDouble("balance"),
+                    rs.getInt("attempts_to_login"));
+        }
         return Optional.ofNullable(card);
     }
 
@@ -60,15 +59,16 @@ public class CreditCardDAOImpl implements CreditCardDAO {
         return card;
     }
 
-    private String test;
 
     @Override
     public Optional<String> getPinCodeByCardNumber(String num) throws SQLException {
+        String pin_code = null;
         selectPin.setString(1, num);
         ResultSet rs = selectPin.executeQuery();
-        rs.next();
-        String pin_code = rs.getString("pin_code");
-        return Optional.of(pin_code);
+        if (rs.next()) {
+            pin_code = rs.getString("pin_code");
+        }
+        return Optional.ofNullable(pin_code);
     }
 
 
